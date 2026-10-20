@@ -311,6 +311,10 @@ export const harnesses: HarnessProfile[] = [
         note: "Redirect target of developers.openai.com/codex/mcp. Verified 2026-10-03: codex mcp add --url, codex mcp login, ~/.codex/config.toml. Re-checked 2026-10-05: the docs now state the CLI recognizes config changes without a restart; only the desktop app and IDE extension need one.",
       },
       {
+        url: "https://learn.chatgpt.com/docs/pricing",
+        note: "Checked 2026-10-20 (redirect target of developers.openai.com/codex/pricing): Free $0 and Go $8 (GPT-6 Luna), Plus $20 (GPT-6.1 Sol and Luna), Pro $100, $200, or $500. This confirms the Pro tiers the morphllm note below only had from a secondary source.",
+      },
+      {
         url: "https://www.morphllm.com/codex-pricing",
         note: "Secondary source only (2026-10-05): reports ChatGPT Pro as three tiers ($100, $200, $500/mo) rather than a single $200 tier. Not confirmed on an official OpenAI page (chatgpt.com/pricing returned 403), so the plan prices in subscriptionBilling.summary are left unchanged and unverified.",
       },
@@ -395,6 +399,10 @@ export const harnesses: HarnessProfile[] = [
       {
         url: "https://github.com/anomalyco/opencode",
         note: "Verified 2026-10-11 for subscriptionBilling.headline: open source under the MIT license.",
+      },
+      {
+        url: "https://opencode.ai/docs/providers/",
+        note: "Checked 2026-10-20: the docs still list a Claude Pro/Max login option but say Anthropic prohibits using it with third-party tools. That conflicts with the claim that OpenCode removed it in 1.3.0, so the Claude Pro or Max plan entry is left unchanged and unconfirmed. ChatGPT Plus/Pro, GitHub Copilot, GitLab Duo and OpenCode Go logins confirmed.",
       },
       {
         url: "https://opencode.ai/docs/mcp-servers",
@@ -654,15 +662,43 @@ export const harnesses: HarnessProfile[] = [
     },
     models: [
       {
-        name: "Claude Sonnet 4.5",
-        contextWindowTokens: 200000,
+        name: "Claude Opus 5.5",
+        contextWindowTokens: 1000000,
         vision: true,
         toolUse: true,
-        notes: "Default Copilot CLI model per the repo README as of 2026-10-03, but the README may be stale: the GitHub changelog shows newer models (Claude Fable 5.1, GPT-6.1 Sol) added in September 2026 and some models deprecated on 2026-09-01. Could not confirm the current default; switch with the /model slash command.",
+        apiPricePerMTok: { input: 4, output: 20 },
+        bestFor: "Long-running agentic coding and knowledge work, Anthropic's suggested starting point.",
+        notes: "Price and context window are Anthropic's API figures; Copilot bills tokens as AI credits and its own context window and per-model credit rates weren't confirmed. Copilot says 1M context is available in the CLI for models with extended capabilities. Switch with the /model slash command.",
+      },
+      {
+        name: "Claude Sonnet 5.5",
+        contextWindowTokens: 1000000,
+        vision: true,
+        toolUse: true,
+        apiPricePerMTok: { input: 2, output: 10 },
+        bestFor: "Everyday coding, with the best mix of speed and intelligence.",
+        notes: "Price and context window are Anthropic's API figures, not confirmed for Copilot (see Claude Opus 5.5). Replaces Claude Sonnet 4.5, which is no longer in GitHub's supported-models list. The current Copilot CLI default model couldn't be confirmed (the CLI README, which says Sonnet 4.5, looks stale).",
+      },
+      {
+        name: "GPT-6.1 Sol",
+        contextWindowTokens: 1050000,
+        vision: true,
+        toolUse: true,
+        apiPricePerMTok: { input: 2, output: 10 },
+        bestFor: "Complex coding and agentic work, near GPT-6 Astra's performance at a lower cost.",
+        notes: "Price and context window are OpenAI's API figures, not confirmed for Copilot (see Claude Opus 5.5).",
       },
     ],
     lastVerified: "2026-10-03",
     sources: [
+      {
+        url: "https://docs.github.com/en/copilot/reference/ai-models/supported-models",
+        note: "Checked 2026-10-20: GA models include Claude Fable 5.1, Opus 5.5, Sonnet 5.5, Haiku 5.5 and GPT-6.1 Sol, GPT-6 Astra/Luna; Claude Sonnet 4.5 is no longer listed. 1M context is available in the CLI for models with extended capabilities. No default model or per-model context/price is given. The search-reported 2026-10-19 retirements (GPT-5.5, Grok 4.5 etc.) come from GitHub changelog snippets, not re-fetched.",
+      },
+      {
+        url: "https://docs.github.com/en/copilot/concepts/billing/usage-based-billing-for-individuals",
+        note: "Checked 2026-10-20: Pro 1,000+500 credits, Pro+ 3,900+3,100, Max 10,000+10,000 per month (1 credit = $0.01); Copilot CLI usage draws from the allowance.",
+      },
       {
         url: "https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers",
         note: "Verified 2026-10-13: `copilot mcp add --transport http SERVER-NAME URL` exists, and a server added this way is available immediately without restarting the CLI. The page doesn't cover OAuth, so oauthLogin is unchanged and still unverified.",
