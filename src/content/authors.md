@@ -133,8 +133,8 @@ An introduction.
 
 Every course starts with an interview, so the student's agent can pitch the course at the right level. To write your own, add an exercise with the slug `interview` (`00-interview.md`, or a `## Interview` section). It always comes first, whatever its filename.
 
-- Ask at most four short questions. The agent asks them all in one plain-text message, so the student can answer in one reply.
-- Write them as plain prose, like a list. There's no question format, only the agent reads them.
+- Ask at most four short, independent questions to keep intake brief. Follow /llms.txt's "Asking and answering questions" policy; don't prescribe a harness or UI.
+- Write them as plain prose, like a list, stating free-text or multiple-selection intent where needed. The agent chooses the presentation without inventing choices for open questions.
 - Don't ask what Dev School's Agent setup interview already covers: experience with AI agents, where the student has deployed before, what they want to build, and whether they want quizzes.
 - Interviews are never quizzed.
 
